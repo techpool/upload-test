@@ -1,21 +1,26 @@
 <div style="margin-top: 40px">
 </div>
 <div class="ui container">
-    <form>
-        <div class="ui form">
+    <form ng-submit="submit(someform.$valid)" name="someform">
+        <div class="ui form attached fluid segment">
             <div class="inline fields">
                 <div class="eight wide field">
                     <label>Name</label>
-                    <input type="text" name="name" ng-model="name">
+                    <input type="text" name="name" ng-model="name" required>
                 </div>
                 <div class="four wide field">
-                    <input type="file" name="image" fileread="image">
+                    <input type="file" name="image" fileread="image" accept="image/gif, image/jpeg" required>
                 </div>
-                <button class="ui button" ng-click="submit()">Submit</button>
+                <button class="ui button" type="submit">Submit</button>
+                <button class="ui button" type="button" ng-click="cancel()">Clear Form</button>
             </div>
         </div>
+        <div class="ui bottom attached warning message" ng-show="error">
+            <i class="icon help"></i>
+            <p>{{error.message}}</p>
+        </div>
     </form>
-    <div class="ui horizontal divider">
+    <div class="ui horizontal divider" style="margin-top: 60px; margin-bottom: 60px">
         Your Response Will Be Shown Below
     </div>
     <div ng-if="response_success">

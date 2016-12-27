@@ -44,8 +44,6 @@ angular.module('ngBoilerplate.home', [
             element.bind("change", function(changeEvent) {
                 scope.$apply(function() {
                     scope.fileread = changeEvent.target.files[0];
-                    // or all selected files:
-                    // scope.fileread = changeEvent.target.files;
                 });
             });
         }
@@ -74,23 +72,38 @@ angular.module('ngBoilerplate.home', [
 .controller('HomeCtrl', function HomeController($scope, $http, formUploader) {
     console.log($scope);
 
-    $scope.submit = function() {
+    $scope.submit = function(isValid) {
 
-        var fd = new FormData();
-        fd.append('name', $scope.name);
-        fd.append('image', $scope.image);
+        if (isValid && $scope.image) {
+            var fd = new FormData();
+            fd.append('name', $scope.name);
+            fd.append('image', $scope.image);
 
-        console.log(formUploader);
+            console.log(formUploader);
 
-        $scope.response = {};
+            $scope.response = {};
 
-        formUploader.uploadImage(fd).success(function(data, status, headers, config) {
-            $scope.response_success = true;
-            $scope.response = data;
-        }).error(function(data, status, headers, config) {
-            console.log(data)
-        });
+            formUploader.uploadImage(fd).success(function(data, status, headers, config) {
+                $scope.response_success = true;
+                $scope.error = null;
+                $scope.response = data;
+            }).error(function(data, status, headers, config) {
+                $scope.error = {};
+                $scope.error.message = 'Something went wrong, could not contact the server';
+            });
+        } else {
+            $scope.error = {};
+            $scope.error.message = 'Please fill out all the fields';
+        }
     };
+
+    $scope.cancel = function() {
+        $scope.response_success = false;
+        $scope.error = null;
+        $scope.name = null;
+        $scope.image = null;
+        angular.element("input[type='file']").val(null);
+    }
 })
 
 ;
