@@ -1,0 +1,12 @@
+<form>
+    <input type="text" name="name" ng-model="name">
+    <input type="file" name="image" fileread="image">
+
+    <button ng-click="submit()">Submit</button>
+</form>
+
+<div ng-if="response">
+    Username: Hi {{response.username}}
+
+    <img src="data:image/jpeg;base64, {{response.image}}">
+</div>
