@@ -52,33 +52,43 @@ angular.module('ngBoilerplate.home', [
     };
 }])
 
+.factory('formUploader', function($http) {
+    return {
+        uploadImage: function(formFataObject) {
+            return $http.post("http://localhost:3000/upload", formFataObject, {
+                headers: {
+                    'Content-Type': undefined
+                },
+                transformRequest: angular.identity,
+                params: {
+                    formFataObject
+                }
+            });
+        }
+    }
+})
+
 /**
  * And of course we define a controller for our route.
  */
-.controller('HomeCtrl', function HomeController($scope, $http) {
+.controller('HomeCtrl', function HomeController($scope, $http, formUploader) {
     console.log($scope);
 
     $scope.submit = function() {
 
-        console.log($scope.image);
         var fd = new FormData();
         fd.append('name', $scope.name);
         fd.append('image', $scope.image);
 
+        console.log(formUploader);
 
-        $http.post("http://localhost:3000/upload", fd, {
-            headers: {
-              'Content-Type': undefined
-            },
-            transformRequest: angular.identity,
-            params: {
-              fd
-            }
-        }).success(function(data, status, headers, config) {
+        $scope.response = {};
+
+        formUploader.uploadImage(fd).success(function(data, status, headers, config) {
+            $scope.response_success = true;
             $scope.response = data;
-            console.log(data)
         }).error(function(data, status, headers, config) {
-            console.log(data);
+            console.log(data)
         });
     };
 })
