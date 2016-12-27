@@ -15,8 +15,20 @@
             </div>
         </div>
     </form>
+    <div class="ui horizontal divider">
+        Your Response Will Be Shown Below
+    </div>
     <div ng-if="response_success">
-        Username: Hi {{response.username}}
-        <img src="data:image/jpeg;base64, {{response.image}}">
+        <div class="ui card">
+            <div class="image">
+                <img src="data:image/jpeg;base64, {{response.image}}">
+            </div>
+            <div class="content">
+                <a class="header">{{response.username}}</a>
+                <div class="description">
+                    Hey {{response.username}}, thanks for submitting!
+                </div>
+            </div>
+        </div>
     </div>
 </div>
