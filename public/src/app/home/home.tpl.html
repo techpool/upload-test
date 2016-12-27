@@ -8,16 +8,13 @@
                     <label>Name</label>
                     <input type="text" name="name" ng-model="name">
                 </div>
-                <div class="three wide field">
+                <div class="four wide field">
                     <input type="file" name="image" fileread="image">
                 </div>
                 <button class="ui button" ng-click="submit()">Submit</button>
             </div>
         </div>
     </form>
-    
-    
-    
     <div ng-if="response_success">
         Username: Hi {{response.username}}
         <img src="data:image/jpeg;base64, {{response.image}}">
